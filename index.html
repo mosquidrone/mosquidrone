@@ -837,7 +837,7 @@ footer {
       <div class="sticky-sub">Entrega por WhatsApp el mismo día 🦟</div>
     </div>
     <button class="sticky-pay-btn" onclick="openModal()">
-      Comprar · S/60
+      Comprar mis clips
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
@@ -856,12 +856,32 @@ footer {
         <strong id="modal-session-label">Sesión del día</strong>
         <span id="modal-session-detail">Todos tus clips incluidos</span>
       </div>
-      <div class="modal-price">S/60</div>
+      <div class="modal-price" id="modalPrice">S/60</div>
     </div>
     <input class="modal-field" type="text" id="buyerName" placeholder="Tu nombre completo" />
     <input class="modal-field" type="tel" id="buyerWhatsapp" placeholder="Tu WhatsApp (ej: 987654321)" />
-    <button class="modal-pay-btn" onclick="processPurchase()">🔒 Pagar S/ 60 ahora</button>
-    <div class="modal-security">🛡️ Pago seguro · Entrega por WhatsApp el mismo día</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+      <button class="modal-pay-btn" style="background:linear-gradient(135deg,#7B2FBE,#5B21A8);box-shadow:0 8px 24px rgba(91,33,168,0.35);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0;" onclick="pagarYape()">
+        <span style="font-size:20px;">📲</span>
+        <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;">
+          <span style="font-size:15px;font-weight:800;">Pagar con Yape</span>
+          <span style="font-size:11px;font-weight:600;opacity:0.85;">Abre WhatsApp · te confirmo el número</span>
+        </span>
+      </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:1px;background:var(--sky-mid);"></div>
+        <span style="font-size:11px;color:var(--text-light);font-weight:700;">o paga con tarjeta</span>
+        <div style="flex:1;height:1px;background:var(--sky-mid);"></div>
+      </div>
+      <button class="modal-pay-btn" style="background:linear-gradient(135deg,#E8352A,#C0261D);box-shadow:0 8px 24px rgba(200,40,30,0.3);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0;" onclick="processPurchase()">
+        <span style="font-size:20px;">💳</span>
+        <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;">
+          <span style="font-size:15px;font-weight:800;">Pagar con tarjeta</span>
+          <span style="font-size:11px;font-weight:600;opacity:0.85;">Visa, Mastercard · procesado por Izipay</span>
+        </span>
+      </button>
+    </div>
+    <div class="modal-security" style="margin-top:10px;">🛡️ Pago seguro · Entrega por WhatsApp el mismo día</div>
   </div>
 </div>
 
@@ -924,7 +944,7 @@ footer {
 
 <!-- Izipay Krypton -->
 <script src="https://static.micuentaweb.pe/static/js/krypton-client/V4.0/stable/kr-payment-form.min.js"
-  kr-public-key="77823931:publickey_WUK96ziZh13nvJMpPZPhJufx8c3mSyUuBqgtajfy9MYzZ"
+  kr-public-key="77823931:testpublickey_vxrv94ZlHzSNrX6xrr8m69acaFs8VG4ycg1trDpof7nEH"
   kr-language="es-ES">
 </script>
 <link rel="stylesheet" href="https://static.micuentaweb.pe/static/js/krypton-client/V4.0/stable/kr-theme.min.css"/>
@@ -1058,17 +1078,22 @@ function render() {
         <div class="chip">⏰ ${SESSION.timeStart} – ${SESSION.timeEnd}</div>
         <div class="chip">🎬 ${SESSION.videos.length} clips</div>
       </div>
-      <button class="buy-btn" onclick="document.getElementById('videos-section').scrollIntoView({behavior:'smooth'})">
-        <div class="buy-text-col">
-          <div class="buy-label">¿Te grabamos hoy?</div>
-          <div class="buy-desc">Selecciona tus clips del día</div>
-          <div class="buy-detail">Entrega por WhatsApp el mismo día 🦟</div>
+      <div onclick="document.getElementById('videos-section').scrollIntoView({behavior:'smooth'})" style="cursor:pointer;background:var(--sun-bright);border-radius:20px;padding:14px 16px;box-shadow:0 8px 30px rgba(0,0,0,0.15);display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-mid);margin-bottom:2px;">🏄 Precios · Sesión compartida</div>
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;background:white;border-radius:14px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.5px;color:var(--text-mid);text-transform:uppercase;margin-bottom:3px;">Un clip del día</div>
+            <div style="font-family:'Lilita One',cursive;font-size:18px;color:var(--ocean-deep);line-height:1;">S/40</div>
+            <div style="font-size:11px;color:var(--text-mid);margin-top:4px;line-height:1.4;">El único video que capturamos de ti en la sesión 🎬</div>
+          </div>
+          <div style="flex:1;background:white;border-radius:14px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.5px;color:var(--text-mid);text-transform:uppercase;margin-bottom:3px;">Todos tus clips</div>
+            <div style="font-family:'Lilita One',cursive;font-size:18px;color:var(--ocean-deep);line-height:1;">S/60</div>
+            <div style="font-size:11px;color:var(--text-mid);margin-top:4px;line-height:1.4;">Todos los videos tuyos de la sesión del día 🎬</div>
+          </div>
         </div>
-        <div class="buy-price-col">
-          <div class="buy-price">S/60</div>
-          <div class="buy-per">la sesión</div>
-        </div>
-      </button>
+        <div style="font-size:11px;color:var(--text-mid);font-weight:600;text-align:center;">📲 Entrega por WhatsApp el mismo día · <span style="color:var(--ocean-deep);font-weight:800;">Sesión no exclusiva</span> — el drone graba a varios surfistas</div>
+      </div>
     </div>
 
     <svg class="wave-svg" viewBox="0 0 480 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -1134,8 +1159,10 @@ function render() {
         <div style="font-size:12px;color:var(--text-mid);line-height:1.7;">
           1. Toca ▶ para ver tu preview<br>
           2. Agrega al carrito los clips donde apareces<br>
-          3. Toca el botón de compra que aparece abajo<br><br>
-          <strong style="color:var(--coral);">S/60 la sesión</strong> — incluye todos tus clips del día. Precio por surfista.
+          3. Toca el botón de compra que aparece abajo<br>
+          4. Luego del pago, recibirás un link de descarga de tus clips por WhatsApp 📲<br>
+          <strong style="color:var(--coral);">S/40 clip del día</strong> — el único video que capturamos de ti en la sesión.<br>
+          <strong style="color:var(--coral);">S/60 clips de tu sesión</strong> — todos los videos tuyos del día. Precio por surfista.
         </div>
       </div>
     </div>
@@ -1180,7 +1207,7 @@ function render() {
             <div style="font-size:11px;color:var(--text-light);font-weight:700;">Ahorras S/60</div>
           </div>
         </div>
-        <div class="pack-desc">Grábate 4 veces en el agua. Todos tus clips de cada sesión incluidos.</div>
+        <div class="pack-desc">Grábate en 4 días diferentes. La sesión no es exclusiva — el drone graba a varios surfistas, y tú pagas solo por los clips donde apareces tú. Incluye todos tus videos de cada día.</div>
         <div class="pack-bottom">
           <div>
             <div class="pack-price">S/ 180</div>
@@ -1204,7 +1231,7 @@ function render() {
             <div style="font-size:11px;color:var(--text-light);font-weight:700;">Ahorras S/240</div>
           </div>
         </div>
-        <div class="pack-desc">Un mes completo en el agua. Incluye <strong>1 video editado con slow mo + música de regalo</strong>.</div>
+        <div class="pack-desc">Un mes completo en el agua, en 12 días distintos. La sesión no es exclusiva — pagas solo por los clips donde apareces tú. Incluye <strong>1 video editado con slow mo + música de regalo</strong>.</div>
         <div class="pack-bottom">
           <div>
             <div class="pack-price">S/ 480</div>
@@ -1250,11 +1277,14 @@ function toggleSelect(id) {
 function updateStickyBar() {
   const bar = document.getElementById('stickyBar');
   const count = document.getElementById('stickyCount');
+  const modalPrice = document.getElementById('modalPrice');
   const n = selectedVideos.size;
   if (n > 0) {
+    const precio = n === 1 ? 'S/40' : 'S/60';
     count.textContent = n === 1
-      ? '1 clip seleccionado'
-      : n + ' clips seleccionados';
+      ? '1 clip seleccionado · S/40'
+      : n + ' clips seleccionados · S/60';
+    if (modalPrice) modalPrice.textContent = precio;
     bar.classList.add('visible');
   } else {
     bar.classList.remove('visible');
@@ -1290,6 +1320,28 @@ function openModal() {
 function closeModal() { document.getElementById('purchaseModal').classList.remove('open'); }
 document.getElementById('purchaseModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
 
+function pagarYape() {
+  const name = document.getElementById('buyerName').value.trim();
+  const whatsapp = document.getElementById('buyerWhatsapp').value.trim();
+  if (!name || !whatsapp) {
+    alert('Por favor ingresa tu nombre y WhatsApp.');
+    return;
+  }
+  const clips = Array.from(selectedVideos).sort((a,b)=>a-b).map(n=>'#'+n).join(', ');
+  const monto = selectedVideos.size === 1 ? 'S/40' : 'S/60';
+  const msg = encodeURIComponent(
+    `Hola! Quiero pagar mis clips de MosquiDrone 🦟\n\n` +
+    `👤 Nombre: ${name}\n` +
+    `📱 Mi WhatsApp: ${whatsapp}\n` +
+    `📍 Sesión: ${SESSION.spot} · ${SESSION.date}\n` +
+    `🎬 Clips: ${clips}\n` +
+    `💰 Monto: ${monto}\n\n` +
+    `Voy a yapear/plinear ahora. ¿Me confirmas el número?`
+  );
+  closeModal();
+  window.open(`https://wa.me/51944805995?text=${msg}`, '_blank');
+}
+
 async function processPurchase() {
   const name = document.getElementById('buyerName').value.trim();
   const whatsapp = document.getElementById('buyerWhatsapp').value.trim();
@@ -1299,8 +1351,8 @@ async function processPurchase() {
   }
   window._buyer = { name, whatsapp };
 
-  const btn = document.querySelector('.modal-pay-btn');
-  btn.textContent = 'Procesando...';
+  const btn = document.querySelector('.modal-pay-btn[onclick="processPurchase()"]');
+  btn.textContent = '⏳ Procesando...';
   btn.disabled = true;
 
   const clips = Array.from(selectedVideos).sort((a,b)=>a-b).map(n=>'#'+n).join(', ');
@@ -1311,7 +1363,7 @@ async function processPurchase() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: 6000, // S/60 en céntimos
+        amount: selectedVideos.size === 1 ? 4000 : 6000, // S/40 o S/60 en céntimos
         orderId,
         customerName: name,
         customerEmail: '',
@@ -1344,7 +1396,7 @@ async function processPurchase() {
           `📱 WhatsApp: ${whatsapp}\n` +
           `📍 Sesión: ${SESSION.spot} · ${SESSION.date}\n` +
           `🎬 Clips: ${clips}\n` +
-          `💰 Monto: S/60\n` +
+          `💰 Monto: ${selectedVideos.size === 1 ? 'S/40' : 'S/60'}\n` +
           `🔑 Orden: ${orderId}\n\n` +
           `El cliente espera recibir sus videos durante el día.`
         );
@@ -1355,8 +1407,20 @@ async function processPurchase() {
     });
 
   } catch(err) {
-    alert('Error al procesar el pago. Intenta de nuevo.');
-    btn.textContent = '🔒 Pagar S/ 60 ahora';
+    console.error('Error:', err);
+    // Fallback: mostrar opción de pago por Yape/WhatsApp
+    closeModal();
+    const monto = selectedVideos.size === 1 ? 'S/40' : 'S/60';
+    const msg = encodeURIComponent(
+      `Hola! Quiero pagar mis clips de MosquiDrone 🦟\n\n` +
+      `👤 Nombre: ${name}\n` +
+      `📍 Sesión: ${SESSION.spot} · ${SESSION.date}\n` +
+      `🎬 Clips: ${clips}\n` +
+      `💰 Monto: ${monto}\n\n` +
+      `Quiero pagar con tarjeta. ¿Cómo lo hacemos?`
+    );
+    window.open(`https://wa.me/51944805995?text=${msg}`, '_blank');
+    btn.textContent = '🔒 Pagar ahora';
     btn.disabled = false;
   }
 }
