@@ -1491,10 +1491,32 @@ async function processPurchase() {
 // ════════════════════════════════════
 // SESSION SWITCHING
 // ════════════════════════════════════
+// Ordenar sesiones de más reciente a más antigua
+SESSIONS.sort((a, b) => {
+  const months = {enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11};
+  const parseDate = s => {
+    if (!s || !s.date) return 0;
+    const m = s.date.match(/(\d+)\s+de\s+(\w+)/i);
+    if (!m) return 0;
+    const month = months[m[2].toLowerCase()];
+    if (month === undefined) return 0;
+    return new Date(2026, month, parseInt(m[1])).getTime();
+  };
+  const parseHour = t => {
+    if (!t) return 0;
+    const m = t.match(/(\d+)/);
+    return m ? parseInt(m[1]) : 0;
+  };
+  const ta = parseDate(a) * 100 + parseHour(a.timeStart);
+  const tb = parseDate(b) * 100 + parseHour(b.timeStart);
+  return tb - ta;
+});
+
 const _urlSession = new URLSearchParams(window.location.search).get('sesion');
+const _activeSessions = SESSIONS.filter(s => s.active);
 let currentSessionId = (_urlSession && SESSIONS.find(s => s.id === _urlSession))
   ? _urlSession
-  : (SESSIONS.find(s => s.active)?.id || SESSIONS[0].id);
+  : (_activeSessions[0]?.id || SESSIONS[0].id);
 
 function getSession() {
   return SESSIONS.find(s => s.id === currentSessionId) || SESSIONS[0];
