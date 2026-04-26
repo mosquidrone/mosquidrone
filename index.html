@@ -1033,6 +1033,46 @@ const SESSIONS = [
       { id:23, yt:'m0XiDMWBhYM' },
     ],
   },
+  // ── PLAYA REDONDO 25 abril ──
+  {
+    id: 'playaredondo_25abril',
+    active: true,
+    date: '25 de abril, 2026',
+    spot: 'Playa Redondo',
+    location: 'Costa Verde · Lima',
+    timeStart: '8:30 AM',
+    timeEnd: '10:00 AM',
+    videos: [
+      { id:1, yt:'tQil-9RrzGE' },
+      { id:2, yt:'MrS0fweW_kY' },
+      { id:3, yt:'_LfprfPxRL4' },
+      { id:4, yt:'SW-ZopKxVsU' },
+      { id:5, yt:'UvAHnJzP3nY' },
+    ],
+  },
+  // ── MAKAHA 25 abril ──
+  {
+    id: 'makaha_25abril',
+    active: true,
+    date: '25 de abril, 2026',
+    spot: 'Makaha',
+    location: 'Costa Verde · Lima',
+    timeStart: '3:00 PM',
+    timeEnd: '4:00 PM',
+    videos: [
+      { id:1,  yt:'e_9OglcNyrk' },
+      { id:2,  yt:'oDw5MH8LyqM' },
+      { id:3,  yt:'WRCq-_mn6xw' },
+      { id:4,  yt:'KyZsHRYL7GA' },
+      { id:5,  yt:'fslzMtguZuE' },
+      { id:6,  yt:'xLbu76kO4yo' },
+      { id:7,  yt:'BWiCWWvvfZM' },
+      { id:8,  yt:'-h1d-RLsW0k' },
+      { id:9,  yt:'z_TL4qGZ7wI' },
+      { id:10, yt:'FSFL1VVs3DA' },
+      { id:11, yt:'S1e-Gla43BA' },
+    ],
+  },
   // ── MAKAHA — descomentar cuando tengas los links de YouTube ──
   // {
   //   id: 'makaha_20abril',
@@ -1451,7 +1491,10 @@ async function processPurchase() {
 // ════════════════════════════════════
 // SESSION SWITCHING
 // ════════════════════════════════════
-let currentSessionId = SESSIONS.find(s => s.active)?.id || SESSIONS[0].id;
+const _urlSession = new URLSearchParams(window.location.search).get('sesion');
+let currentSessionId = (_urlSession && SESSIONS.find(s => s.id === _urlSession))
+  ? _urlSession
+  : (SESSIONS.find(s => s.active)?.id || SESSIONS[0].id);
 
 function getSession() {
   return SESSIONS.find(s => s.id === currentSessionId) || SESSIONS[0];
