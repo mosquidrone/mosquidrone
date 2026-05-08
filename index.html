@@ -1249,24 +1249,35 @@ const SESSIONS = [
       { id:17, yt:'dXg1crKdP-o' },
     ],
   },
-  // ── LA HERRADURA 5 mayo ──
+  // ── MAKAHA 6 mayo ──
   {
-    id: 'laherradura_5mayo',
+    id: 'makaha_6mayo',
     active: true,
-    date: '5 de mayo, 2026',
-    spot: 'La Herradura',
-    location: 'Chorrillos · Lima',
-    timeStart: '5:30 PM',
-    timeEnd: '6:00 PM',
+    date: '6 de mayo, 2026',
+    spot: 'Makaha',
+    location: 'Costa Verde · Lima',
+    timeStart: '12:00 PM',
+    timeEnd: '2:00 PM',
     videos: [
-      { id:1, yt:'NYqHvAi-ICQ' },
-      { id:2, yt:'VWkPn0VhiCw' },
-      { id:3, yt:'-OQl0gvU8ko' },
-      { id:4, yt:'I54NT33ZLPs' },
-      { id:5, yt:'vkpCY1DBe0I' },
-      { id:6, yt:'Hvz7enhD-2Q' },
-      { id:7, yt:'9KM48LMna7c' },
-      { id:8, yt:'8lsQF18hE48' },
+      { id:1,  yt:'Su6p8DzHqLw' },
+      { id:2,  yt:'PdHDPk5t-0A' },
+      { id:3,  yt:'s28JYznBmjQ' },
+      { id:4,  yt:'Y9wBOHL4ztE' },
+      { id:5,  yt:'Wg242l2LHKM' },
+      { id:6,  yt:'EvCqv-mv8GY' },
+      { id:7,  yt:'j1Pre2_JEkg' },
+      { id:8,  yt:'DFb_5W_uOLI' },
+      { id:9,  yt:'wsCPLrYY1pw' },
+      { id:10, yt:'qFTGeWw3YVw' },
+      { id:11, yt:'4ur2d7TmDMw' },
+      { id:12, yt:'7nQGz7yleRo' },
+      { id:13, yt:'Xp3aN7GjXIg' },
+      { id:14, yt:'s4levNAMjNM' },
+      { id:15, yt:'cWq5zIQZa8c' },
+      { id:16, yt:'TesgdZvDxNI' },
+      { id:17, yt:'VVtY92SBYJc' },
+      { id:18, yt:'Z7v5rCUW85s' },
+      { id:19, yt:'LcaEjRdXasI' },
     ],
   },
   // ── MAKAHA — descomentar cuando tengas los links de YouTube ──
@@ -1730,12 +1741,8 @@ SESSIONS.sort((a, b) => {
   };
   const parseHour = t => {
     if (!t) return 0;
-    const m = t.match(/(\d+)(?::(\d+))?\s*(AM|PM)?/i);
-    if (!m) return 0;
-    let h = parseInt(m[1]);
-    if (m[3] && m[3].toUpperCase() === 'PM' && h !== 12) h += 12;
-    if (m[3] && m[3].toUpperCase() === 'AM' && h === 12) h = 0;
-    return h * 60 + (parseInt(m[2]) || 0);
+    const m = t.match(/(\d+)/);
+    return m ? parseInt(m[1]) : 0;
   };
   const ta = parseDate(a) * 100 + parseHour(a.timeStart);
   const tb = parseDate(b) * 100 + parseHour(b.timeStart);
